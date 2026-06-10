@@ -62,27 +62,35 @@ ALTER TABLE public.game_leaderboard ENABLE ROW LEVEL SECURITY;
 -- Criar Políticas de Acesso (Policies)
 
 -- Permissões para public.questions (Leitura pública permitida)
+DROP POLICY IF EXISTS "Permitir leitura publica de questoes" ON public.questions;
 CREATE POLICY "Permitir leitura publica de questoes" 
 ON public.questions FOR SELECT USING (true);
 
 -- Permissões para public.sinais_data (Leitura pública permitida)
+DROP POLICY IF EXISTS "Permitir leitura publica de sinais" ON public.sinais_data;
 CREATE POLICY "Permitir leitura publica de sinais" 
 ON public.sinais_data FOR SELECT USING (true);
 
 -- Permissões para public.dicas (Leitura pública permitida)
+DROP POLICY IF EXISTS "Permitir leitura publica de dicas" ON public.dicas;
 CREATE POLICY "Permitir leitura publica de dicas" 
 ON public.dicas FOR SELECT USING (true);
 
 -- Permissões para public.simulados_history (Leitura e inserção públicas permitidas)
+DROP POLICY IF EXISTS "Permitir leitura publica de historico" ON public.simulados_history;
 CREATE POLICY "Permitir leitura publica de historico" 
 ON public.simulados_history FOR SELECT USING (true);
 
+DROP POLICY IF EXISTS "Permitir insercao publica de historico" ON public.simulados_history;
 CREATE POLICY "Permitir insercao publica de historico" 
 ON public.simulados_history FOR INSERT WITH CHECK (true);
 
 -- Permissões para public.game_leaderboard (Leitura e inserção públicas permitidas)
+DROP POLICY IF EXISTS "Permitir leitura publica do ranking" ON public.game_leaderboard;
 CREATE POLICY "Permitir leitura publica do ranking" 
 ON public.game_leaderboard FOR SELECT USING (true);
 
+DROP POLICY IF EXISTS "Permitir insercao publica no ranking" ON public.game_leaderboard;
 CREATE POLICY "Permitir insercao publica no ranking" 
 ON public.game_leaderboard FOR INSERT WITH CHECK (true);
+
