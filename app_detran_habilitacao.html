@@ -1,0 +1,1010 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css');
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);background:transparent}
+:root{
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --border-radius-lg: 16px;
+  --border-radius-md: 10px;
+  --color-text-primary: #1e293b;
+  --color-text-secondary: #64748b;
+  --color-background-primary: #ffffff;
+  --color-background-secondary: #f8fafc;
+  --color-border-tertiary: #e2e8f0;
+
+  --brand:#1a6b4a;--brand-light:#e8f5ef;--brand-mid:#2d9b6e;
+  --amber:#c97a0a;--amber-light:#fff8e6;
+  --red:#e11d48;--red-light:#fff1f2;
+  --blue:#2563eb;--blue-light:#eff6ff;
+  --text:var(--color-text-primary);--muted:var(--color-text-secondary);
+  --bg:var(--color-background-primary);--bg2:var(--color-background-secondary);
+  --border:var(--color-border-tertiary);
+}
+.app{min-height:100vh;background:var(--bg)}
+.nav{display:flex;gap:4px;padding:16px 20px 0;border-bottom:0.5px solid var(--border);overflow-x:auto;background:var(--bg);align-items:center}
+.nav-btn{display:flex;align-items:center;gap:6px;padding:10px 16px;border:none;background:none;cursor:pointer;font-size:13px;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap;transition:color 0.15s;font-family:var(--font-sans)}
+.nav-btn.active{color:var(--brand);border-bottom-color:var(--brand);font-weight:500}
+.nav-btn:hover:not(.active){color:var(--text)}
+.nav-btn i{font-size:16px}
+.screen{display:none;padding:20px}
+.screen.active{display:block}
+
+/* HOME */
+.hero{background:var(--brand);border-radius:var(--border-radius-lg);padding:32px;color:#fff;margin-bottom:20px;position:relative;overflow:hidden}
+.hero h1{font-size:26px;font-weight:500;margin-bottom:8px}
+.hero p{font-size:14px;opacity:0.85}
+.hero-badge{position:absolute;right:24px;top:50%;transform:translateY(-50%);font-size:64px;opacity:0.15}
+.home-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.home-card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--border-radius-lg);padding:20px 16px;cursor:pointer;transition:all 0.2s ease;text-align:center}
+.home-card:hover{border-color:var(--brand);background:var(--brand-light);transform:translateY(-2px);box-shadow:0 4px 12px rgba(26,107,74,0.08)}
+.home-card i{font-size:32px;color:var(--brand);margin-bottom:10px;display:block}
+.home-card h3{font-size:14px;font-weight:500;margin-bottom:4px}
+.home-card p{font-size:12px;color:var(--muted)}
+
+/* SIMULADO CONFIG */
+.config-card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--border-radius-lg);padding:24px;max-width:520px;margin:0 auto}
+.config-card h2{font-size:18px;font-weight:500;margin-bottom:20px}
+.form-group{margin-bottom:18px}
+.form-group label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+.qty-grid{display:flex;gap:8px;flex-wrap:wrap}
+.qty-btn{padding:8px 18px;border:0.5px solid var(--border);background:var(--bg2);border-radius:var(--border-radius-md);cursor:pointer;font-size:14px;font-family:var(--font-sans);transition:all 0.15s}
+.qty-btn.active{background:var(--brand);color:#fff;border-color:var(--brand)}
+.cat-grid{display:flex;gap:8px;flex-wrap:wrap}
+.cat-btn{padding:8px 14px;border:0.5px solid var(--border);background:var(--bg2);border-radius:var(--border-radius-md);cursor:pointer;font-size:13px;font-family:var(--font-sans);transition:all 0.15s}
+.cat-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.start-btn{width:100%;padding:14px;background:var(--brand);color:#fff;border:none;border-radius:var(--border-radius-md);font-size:15px;font-weight:500;cursor:pointer;font-family:var(--font-sans);margin-top:8px}
+.start-btn:hover{background:var(--brand-mid)}
+
+/* QUIZ */
+.progress-bar{height:6px;background:var(--bg2);border-radius:3px;margin-bottom:20px;overflow:hidden}
+.progress-fill{height:100%;background:var(--brand);border-radius:3px;transition:width 0.3s}
+.quiz-meta{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:20px}
+.question-card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--border-radius-lg);padding:24px;margin-bottom:16px}
+.question-tag{font-size:11px;font-weight:500;color:var(--brand);background:var(--brand-light);padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:12px}
+.question-text{font-size:15px;line-height:1.6;margin-bottom:4px}
+.options{display:flex;flex-direction:column;gap:10px;margin-top:18px}
+.opt{padding:14px 16px;border:0.5px solid var(--border);border-radius:var(--border-radius-md);cursor:pointer;font-size:14px;line-height:1.5;transition:all 0.15s;display:flex;align-items:flex-start;gap:10px}
+.opt:hover:not(.disabled){border-color:var(--brand);background:var(--brand-light);transform:translateX(4px)}
+.opt.selected{border-color:var(--blue);background:var(--blue-light)}
+.opt.correct{border-color:#27ae60;background:#eafaf1;pointer-events:none}
+.opt.wrong{border-color:var(--red);background:var(--red-light);pointer-events:none}
+.opt.disabled{pointer-events:none}
+.opt-letter{width:24px;height:24px;border-radius:50%;background:var(--bg2);border:0.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0}
+.nav-quiz{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.quiz-btn{padding:10px 20px;border:0.5px solid var(--border);background:var(--bg);border-radius:var(--border-radius-md);cursor:pointer;font-size:14px;font-family:var(--font-sans)}
+.quiz-btn.primary{background:var(--brand);color:#fff;border-color:var(--brand)}
+.quiz-btn:disabled{opacity:0.4;cursor:not-allowed}
+
+/* RESULTADO */
+.result-hero{border-radius:var(--border-radius-lg);padding:32px;text-align:center;margin-bottom:20px}
+.result-score{font-size:52px;font-weight:500;margin:8px 0}
+.result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.stat-card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--border-radius-md);padding:16px;text-align:center}
+.stat-num{font-size:24px;font-weight:500}
+.stat-label{font-size:12px;color:var(--muted);margin-top:4px}
+.review-item{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--border-radius-md);padding:16px;margin-bottom:8px}
+.review-badge{font-size:11px;padding:2px 8px;border-radius:20px;font-weight:500;display:inline-block;margin-bottom:8px}
+.badge-ok{background:#eafaf1;color:#1a7a40}
+.badge-err{background:var(--red-light);color:var(--red)}
+
+/* SINAIS */
+.sinais-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
+.stab{padding:8px 14px;border:0.5px solid var(--border);background:var(--bg2);border-radius:var(--border-radius-md);cursor:pointer;font-size:13px;font-family:var(--font-sans)}
+.stab.active{background:var(--brand);color:#fff;border-color:var(--brand)}
+.sinais-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px}
+.sinal-card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--border-radius-lg);padding:14px 10px;text-align:center;cursor:pointer;transition:all 0.15s}
+.sinal-card:hover{border-color:var(--brand);transform:translateY(-2px)}
+.sinal-card svg{width:70px;height:70px;margin:0 auto 8px}
+.sinal-card .sname{font-size:11px;font-weight:500;line-height:1.3}
+.sinal-card .stype{font-size:10px;color:var(--muted);margin-top:2px}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:999;padding:20px}
+.modal{background:var(--bg);border-radius:var(--border-radius-lg);padding:28px;max-width:440px;width:100%;max-height:80vh;overflow-y:auto}
+.modal h3{font-size:17px;font-weight:500;margin-bottom:12px}
+.modal p{font-size:14px;color:var(--muted);line-height:1.6}
+.modal-close{float:right;background:none;border:none;cursor:pointer;font-size:20px;color:var(--muted)}
+
+/* JOGO */
+.game-area{max-width:600px;margin:0 auto}
+.game-score-bar{display:flex;justify-content:space-between;margin-bottom:20px;font-size:14px}
+.game-score{font-weight:500;color:var(--brand);font-size:16px}
+.game-question{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--border-radius-lg);padding:24px;text-align:center;margin-bottom:16px}
+.game-sign{margin:0 auto 16px}
+.game-q-text{font-size:16px;font-weight:500;margin-bottom:4px}
+.game-q-sub{font-size:13px;color:var(--muted)}
+.game-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.game-opt{padding:14px 10px;border:0.5px solid var(--border);border-radius:var(--border-radius-md);cursor:pointer;font-size:13px;text-align:center;transition:all 0.15s;background:var(--bg)}
+.game-opt:hover:not(.disabled){border-color:var(--brand);background:var(--brand-light)}
+.game-opt.correct{background:#eafaf1;border-color:#27ae60;color:#1a7a40;font-weight:500}
+.game-opt.wrong{background:var(--red-light);border-color:var(--red);color:var(--red)}
+.game-opt.disabled{pointer-events:none}
+.streak-bar{display:flex;gap:4px;margin-bottom:12px}
+.streak-dot{width:12px;height:12px;border-radius:50%;background:var(--bg2);border:0.5px solid var(--border);transition:background 0.2s}
+.streak-dot.hit{background:var(--brand)}
+.streak-dot.miss{background:var(--red)}
+.feedback-msg{text-align:center;padding:12px;border-radius:var(--border-radius-md);font-size:14px;font-weight:500;margin-bottom:12px;display:none}
+.feedback-msg.show{display:block}
+.feedback-msg.ok{background:#eafaf1;color:#1a7a40}
+.feedback-msg.bad{background:var(--red-light);color:var(--red)}
+.section-title{font-size:14px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:16px}
+</style>
+
+<div class="app" id="app">
+
+<div class="nav" id="mainNav">
+  <button class="nav-btn active" onclick="goScreen('home')"><i class="ti ti-home" aria-hidden="true"></i> Início</button>
+  <button class="nav-btn" onclick="goScreen('simulado-config')"><i class="ti ti-clipboard-text" aria-hidden="true"></i> Simulado</button>
+  <button class="nav-btn" onclick="goScreen('sinais')"><i class="ti ti-road" aria-hidden="true"></i> Sinais</button>
+  <button class="nav-btn" onclick="goScreen('jogo')"><i class="ti ti-device-gamepad-2" aria-hidden="true"></i> Jogo</button>
+  <button class="nav-btn" onclick="goScreen('dicas')"><i class="ti ti-bulb" aria-hidden="true"></i> Dicas</button>
+  <div class="nav-status" id="dbStatus" style="margin-left: auto; display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); padding-bottom: 16px; padding-right: 10px; font-family: var(--font-sans)">
+    <span style="width: 8px; height: 8px; border-radius: 50%; background: #94a3b8; display: inline-block; transition: background-color 0.3s;" id="dbStatusDot"></span>
+    <span id="dbStatusText">Verificando banco...</span>
+  </div>
+</div>
+
+<!-- HOME -->
+<div class="screen active" id="screen-home">
+  <div class="hero">
+    <h1>Habilitação Fácil</h1>
+    <p>Prepare-se para a prova do DETRAN com simulados, flashcards e muito mais.</p>
+    <div class="hero-badge" aria-hidden="true">🚦</div>
+  </div>
+
+  <!-- PROFILE CARD -->
+  <div style="background: var(--bg2); border: 0.5px solid var(--border); border-radius: var(--border-radius-lg); padding: 16px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <div style="width: 44px; height: 44px; border-radius: 50%; background: var(--brand-light); color: var(--brand); display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold;" id="userAvatar">U</div>
+      <div>
+        <div style="font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px;">Estudante</div>
+        <div style="font-size: 15px; font-weight: 600;" id="userNameDisplay">Visitante</div>
+      </div>
+    </div>
+    <button class="qty-btn" onclick="changeUsernamePrompt()" style="padding: 6px 12px; font-size: 12px; border-radius: 6px; border-color: var(--border); background: var(--bg); display: flex; align-items: center; gap: 4px;">
+      <i class="ti ti-edit" style="font-size: 14px;"></i> Alterar Nome
+    </button>
+  </div>
+
+  <p class="section-title">O que você quer estudar?</p>
+  <div class="home-grid">
+    <div class="home-card" onclick="goScreen('simulado-config')">
+      <i class="ti ti-clipboard-text" aria-hidden="true"></i>
+      <h3>Simulado</h3>
+      <p>Questões estilo DETRAN com gabarito</p>
+    </div>
+    <div class="home-card" onclick="goScreen('sinais')">
+      <i class="ti ti-road" aria-hidden="true"></i>
+      <h3>Sinais & Placas</h3>
+      <p>Biblioteca completa de sinais de trânsito</p>
+    </div>
+    <div class="home-card" onclick="goScreen('jogo')">
+      <i class="ti ti-device-gamepad-2" aria-hidden="true"></i>
+      <h3>Jogo Flash</h3>
+      <p>Memorize sinais em formato de jogo rápido</p>
+    </div>
+    <div class="home-card" onclick="goScreen('dicas')">
+      <i class="ti ti-bulb" aria-hidden="true"></i>
+      <h3>Dicas & Macetes</h3>
+      <p>Truques para não esquecer as regras</p>
+    </div>
+  </div>
+  <div style="margin-top:20px;padding:16px;background:var(--amber-light);border-radius:var(--border-radius-md);border:0.5px solid #f0c060">
+    <div style="font-size:13px;font-weight:500;color:var(--amber);margin-bottom:4px">💡 Sabia que?</div>
+    <div style="font-size:13px;color:var(--muted);line-height:1.5">Para aprovação no DETRAN, você precisa acertar no mínimo <strong>70%</strong> das questões. Pratique diariamente para garantir sua aprovação!</div>
+  </div>
+</div>
+
+<!-- SIMULADO CONFIG -->
+<div class="screen" id="screen-simulado-config">
+  <div class="config-card">
+    <h2>Configurar simulado</h2>
+    <div class="form-group">
+      <label>Quantidade de questões</label>
+      <div class="qty-grid" id="qtyGrid">
+        <button class="qty-btn active" data-qty="10" onclick="setQty(this)">10</button>
+        <button class="qty-btn" data-qty="20" onclick="setQty(this)">20</button>
+        <button class="qty-btn" data-qty="30" onclick="setQty(this)">30</button>
+        <button class="qty-btn" data-qty="40" onclick="setQty(this)">40 (DETRAN)</button>
+        <button class="qty-btn" data-qty="50" onclick="setQty(this)">50</button>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Categorias (deixe todas para geral)</label>
+      <div class="cat-grid" id="catGrid">
+        <button class="cat-btn active" data-cat="all" onclick="setCat(this)">Todas</button>
+        <button class="cat-btn" data-cat="legislacao" onclick="setCat(this)">Legislação</button>
+        <button class="cat-btn" data-cat="sinais" onclick="setCat(this)">Sinais</button>
+        <button class="cat-btn" data-cat="direcao" onclick="setCat(this)">Direção defensiva</button>
+        <button class="cat-btn" data-cat="alcool" onclick="setCat(this)">Álcool e drogas</button>
+        <button class="cat-btn" data-cat="primeiros" onclick="setCat(this)">Primeiros socorros</button>
+        <button class="cat-btn" data-cat="meioambiente" onclick="setCat(this)">Meio ambiente</button>
+      </div>
+    </div>
+    <button class="start-btn" onclick="startQuiz()">Iniciar simulado →</button>
+  </div>
+
+  <!-- HISTORICO SIMULADOS -->
+  <div style="max-width: 520px; margin: 24px auto 0;" id="simuladoHistorySection">
+    <p class="section-title">Seu Histórico de Simulados</p>
+    <div id="simuladoHistoryList" style="display: flex; flex-direction: column; gap: 8px;">
+      <!-- Itens do histórico serão inseridos aqui -->
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="screen" id="screen-quiz">
+  <div style="max-width:640px;margin:0 auto">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <div class="quiz-meta">
+      <span id="qCounter">Questão 1 de 10</span>
+      <span id="qCategory" style="background:var(--brand-light);color:var(--brand);padding:2px 10px;border-radius:20px;font-size:12px;font-weight:500"></span>
+    </div>
+    <div class="question-card" id="questionCard">
+      <div class="question-text" id="questionText"></div>
+      <div class="options" id="optionsContainer"></div>
+    </div>
+    <div id="explanationBox" style="display:none;padding:14px 16px;background:var(--brand-light);border-radius:var(--border-radius-md);border-left:3px solid var(--brand);font-size:13px;margin-bottom:12px;line-height:1.6;color:var(--muted)"></div>
+    <div class="nav-quiz">
+      <button class="quiz-btn" onclick="goScreen('simulado-config')">Cancelar</button>
+      <button class="quiz-btn primary" id="nextBtn" onclick="nextQuestion()" disabled>Próxima →</button>
+    </div>
+  </div>
+</div>
+
+<!-- RESULTADO -->
+<div class="screen" id="screen-resultado">
+  <div id="resultHero" class="result-hero">
+    <div style="font-size:14px;font-weight:500;margin-bottom:4px" id="resultTitle"></div>
+    <div class="result-score" id="resultScore"></div>
+    <div style="font-size:14px" id="resultMsg"></div>
+  </div>
+  <div class="result-grid">
+    <div class="stat-card"><div class="stat-num" id="statCertas" style="color:#27ae60"></div><div class="stat-label">Corretas</div></div>
+    <div class="stat-card"><div class="stat-num" id="statErradas" style="color:var(--red)"></div><div class="stat-label">Erradas</div></div>
+    <div class="stat-card"><div class="stat-num" id="statPct"></div><div class="stat-label">Aproveitamento</div></div>
+  </div>
+  <div style="margin-bottom:12px;font-size:14px;font-weight:500">Revisão das questões</div>
+  <div id="reviewList"></div>
+  <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">
+    <button class="quiz-btn primary" onclick="startQuiz()">Refazer</button>
+    <button class="quiz-btn" onclick="goScreen('simulado-config')">Novo simulado</button>
+    <button class="quiz-btn" onclick="goScreen('home')">Início</button>
+  </div>
+</div>
+
+<!-- SINAIS -->
+<div class="screen" id="screen-sinais">
+  <h2 class="section-title">Biblioteca de sinais</h2>
+  <div class="sinais-tabs" id="sinaisTabs">
+    <button class="stab active" data-cat="regulamentacao" onclick="filterSinais(this)">Regulamentação</button>
+    <button class="stab" data-cat="advertencia" onclick="filterSinais(this)">Advertência</button>
+    <button class="stab" data-cat="indicacao" onclick="filterSinais(this)">Indicação</button>
+    <button class="stab" data-cat="semaforo" onclick="filterSinais(this)">Semáforos</button>
+    <button class="stab" data-cat="gestos" onclick="filterSinais(this)">Gestos</button>
+    <button class="stab" data-cat="horizontal" onclick="filterSinais(this)">Marcas horiz.</button>
+  </div>
+  <div class="sinais-grid" id="sinaisGrid"></div>
+</div>
+
+<!-- JOGO -->
+<div class="screen" id="screen-jogo">
+  <div class="game-area">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <div>
+        <div style="font-size:16px;font-weight:500">Jogo dos Sinais</div>
+        <div style="font-size:12px;color:var(--muted)">Identifique o sinal correto</div>
+      </div>
+      <div class="game-score">
+        <span id="gameScore">0</span> pts &nbsp;
+        <span style="font-size:12px;color:var(--muted)" id="gameLevel">Nível 1</span>
+      </div>
+    </div>
+    <div style="margin-bottom:8px;font-size:12px;color:var(--muted)">Sequência</div>
+    <div class="streak-bar" id="streakBar"></div>
+    <div class="feedback-msg" id="feedbackMsg"></div>
+    <div class="game-question">
+      <div id="gameSign" class="game-sign"></div>
+      <div class="game-q-text" id="gameQText">Qual é este sinal?</div>
+      <div class="game-q-sub" id="gameQSub"></div>
+    </div>
+    <div class="game-opts" id="gameOpts"></div>
+    <div style="text-align:center;margin-top:16px">
+      <button class="quiz-btn" onclick="resetGame()">Reiniciar jogo</button>
+    </div>
+
+    <!-- RANKING GLOBAL -->
+    <div style="margin-top: 28px; background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--border-radius-lg); padding: 20px;" id="gameLeaderboardSection">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <span style="font-size: 14px; font-weight: 600; color: var(--text);">🏆 Ranking Global (Placas)</span>
+        <button onclick="loadLeaderboard()" style="background: none; border: none; color: var(--blue); font-size: 11px; cursor: pointer; display: flex; align-items: center; gap: 4px; font-family: var(--font-sans)">
+          <i class="ti ti-refresh"></i> Atualizar
+        </button>
+      </div>
+      <div id="gameLeaderboardList" style="display: flex; flex-direction: column; gap: 6px;">
+        <!-- Itens do ranking serão inseridos aqui -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DICAS -->
+<div class="screen" id="screen-dicas">
+  <h2 class="section-title">Dicas & macetes</h2>
+  <div id="dicasList"></div>
+</div>
+
+</div>
+
+<!-- MODAL SINAL -->
+<div class="modal-overlay" id="sinalModal" style="display:none" onclick="if(event.target===this)closeSinalModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeSinalModal()" aria-label="Fechar">✕</button>
+    <div style="text-align:center;margin-bottom:16px" id="modalSvg"></div>
+    <h3 id="modalName"></h3>
+    <div style="margin:8px 0;font-size:12px;padding:3px 10px;border-radius:20px;display:inline-block" id="modalType"></div>
+    <p id="modalDesc" style="margin-top:12px"></p>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ===== DATA =====
+
+const QUESTIONS = [
+  // LEGISLAÇÃO
+  {id:1,cat:"legislacao",text:"Qual é a velocidade máxima permitida em vias urbanas (padrão)?",opts:["40 km/h","60 km/h","80 km/h","100 km/h"],ans:1,exp:"Em vias urbanas o CTB define 60 km/h como padrão, salvo indicação de placa diferente."},
+  {id:2,cat:"legislacao",text:"De acordo com o CTB, o que configura 'estacionamento' de veículo?",opts:["Parada superior a 5 minutos","Imobilização voluntária por tempo superior ao necessário para embarque/desembarque","Parada por tempo indefinido em faixa exclusiva","Qualquer parada do veículo na via"],ans:1,exp:"O CTB define estacionamento como imobilização por tempo superior ao necessário para embarque/desembarque de passageiros ou carga/descarga de mercadorias."},
+  {id:3,cat:"legislacao",text:"Qual documento NÃO é obrigatório portar ao dirigir um veículo no Brasil?",opts:["CNH","CRLV","Documento de identidade pessoal","Comprovante de pagamento do IPVA"],ans:3,exp:"O comprovante de pagamento do IPVA não é obrigatório para portar ao dirigir. Os obrigatórios são CNH, CRLV e documento de identidade."},
+  {id:4,cat:"legislacao",text:"Em caso de acidente com vítima, o condutor que fugir do local poderá ter sua CNH:",opts:["Suspensa por 30 dias","Cassada","Suspensa por 1 ano","Apenas multado"],ans:1,exp:"Abandonar o local de acidente com vítima é infração gravíssima que pode levar à cassação da CNH."},
+  {id:5,cat:"legislacao",text:"O que é a faixa de pedestre elevada (lombo faixa)?",opts:["Uma área de estacionamento exclusivo","Dispositivo para redução de velocidade e travessia de pedestre","Sinal de advertência pintado no chão","Faixa exclusiva para ônibus"],ans:1,exp:"A faixa de pedestre elevada combina a função de lombada eletrônica com a proteção ao pedestre na travessia."},
+  {id:6,cat:"legislacao",text:"Qual é a penalidade para quem dirigir com CNH vencida há mais de 30 dias?",opts:["Infração leve","Infração média","Infração grave","Infração gravíssima"],ans:2,exp:"Dirigir com CNH vencida há mais de 30 dias é infração grave, sujeita a multa e retenção do veículo."},
+  {id:7,cat:"legislacao",text:"A preferência de passagem em cruzamentos não sinalizados pertence a:",opts:["Quem chegar primeiro","Veículo que vem pela direita","Veículo maior","Motocicleta"],ans:1,exp:"Em cruzamentos não sinalizados, tem preferência quem vem pela direita."},
+  {id:8,cat:"legislacao",text:"Quantos pontos acumulados na CNH em 12 meses levam à suspensão?",opts:["15 pontos","20 pontos","25 pontos","30 pontos"],ans:1,exp:"A acumulação de 20 pontos em 12 meses causa a suspensão da CNH (salvo se o condutor tiver apenas infrações leves e médias, que permite até 40 pontos)."},
+  {id:9,cat:"legislacao",text:"Na rodovia, qual é a faixa de maior velocidade?",opts:["A faixa da direita","A faixa do meio","A faixa da esquerda","Todas têm a mesma velocidade"],ans:2,exp:"A faixa da esquerda é para ultrapassagem e veículos mais rápidos. A faixa da direita é a de tráfego normal."},
+  {id:10,cat:"legislacao",text:"Qual a distância mínima segura do veículo da frente recomendada pelo CTB?",opts:["5 metros","10 metros","15 metros","A distância necessária para parada segura"],ans:3,exp:"O CTB não define uma distância fixa, mas sim que deve ser a distância necessária para parar com segurança em caso de freada brusca do veículo da frente."},
+  {id:11,cat:"legislacao",text:"É obrigatório o uso do cinto de segurança:",opts:["Apenas em vias expressas","Apenas para o motorista","Para todos os ocupantes do veículo","Apenas para passageiros no banco traseiro"],ans:2,exp:"O uso do cinto de segurança é obrigatório para TODOS os ocupantes do veículo em qualquer tipo de via."},
+  {id:12,cat:"legislacao",text:"Qual documento comprova a propriedade do veículo?",opts:["IPVA quitado","CRV (DUT)","CRLV","Nota fiscal"],ans:1,exp:"O CRV (Certificado de Registro de Veículo), também conhecido como DUT, é o documento que comprova a propriedade do veículo."},
+  {id:13,cat:"legislacao",text:"O condutor que se recusar ao teste do bafômetro estará sujeito a:",opts:["Apenas advertência","Multa leve","Mesma penalidade de embriaguez ao volante","Advertência e apreensão do veículo"],ans:2,exp:"A recusa ao teste do bafômetro implica as mesmas penalidades de dirigir embriagado, incluindo multa gravíssima e suspensão da CNH."},
+
+  // SINAIS
+  {id:14,cat:"sinais",text:"A placa circular vermelha com barra diagonal indica:",opts:["Velocidade máxima","Proibição de alguma ação","Regulamentação de sentido","Fim de restrição"],ans:1,exp:"Placas circulares vermelhas com barra diagonal são de proibição, indicando que a ação representada é proibida."},
+  {id:15,cat:"sinais",text:"As placas triangulares com fundo amarelo são de:",opts:["Regulamentação","Advertência","Indicação","Serviços auxiliares"],ans:1,exp:"Placas triangulares com fundo amarelo (ou laranja em obras) são de advertência, alertando para situações que exigem atenção."},
+  {id:16,cat:"sinais",text:"O semáforo com luz âmbar piscando indica:",opts:["Proibido passar","Atenção, reduza a velocidade","Pode passar normalmente","Cruzamento com preferência"],ans:1,exp:"Sinal âmbar piscante indica atenção redobrada. O condutor deve reduzir a velocidade e verificar se há pedestre ou veículo cruzando."},
+  {id:17,cat:"sinais",text:"Qual é a cor das placas de indicação de sentido em rodovias federais?",opts:["Azul","Verde","Branco","Amarelo"],ans:1,exp:"Nas rodovias federais, as placas de indicação de sentido têm fundo verde. Fundo azul é usado em vias urbanas e rodovias estaduais."},
+  {id:18,cat:"sinais",text:"A faixa contínua dupla amarela no centro da pista indica:",opts:["Pode ultrapassar nos dois sentidos","Proibida ultrapassagem nos dois sentidos","Pode ultrapassar apenas no sentido de quem vai","Fim de pista"],ans:1,exp:"A linha dupla contínua amarela proíbe a ultrapassagem em ambos os sentidos."},
+  {id:19,cat:"sinais",text:"O que indica a placa com círculo azul e seta branca para o alto?",opts:["Sentido proibido","Via de mão única obrigatória","Ultrapassagem proibida","Velocidade mínima"],ans:1,exp:"Círculo azul com seta branca indica sentido obrigatório de circulação."},
+  {id:20,cat:"sinais",text:"A placa de 'Pare' (STOP) é:",opts:["Quadrada vermelha","Octogonal vermelha","Triangular vermelha","Circular vermelha"],ans:1,exp:"A placa de STOP tem formato octogonal (oito lados) vermelha com letras brancas, e é única nesse formato justamente para fácil identificação."},
+  {id:21,cat:"sinais",text:"Quando um agente de trânsito indica o braço levantado verticalmente, significa:",opts:["Parar","Seguir em frente","Atenção, cruzamento","Ultrapassagem permitida"],ans:0,exp:"Braço levantado verticalmente pelo agente significa PARAR para todos os que se aproximam do cruzamento."},
+  {id:22,cat:"sinais",text:"O que significam as marcas em zigue-zague na pista?",opts:["Via em obras","Pista escorregadia","Área de faixa de pedestres ou redução de velocidade","Estacionamento proibido"],ans:2,exp:"Marcas em zigue-zague indicam proximidade de faixa de pedestres ou local de redução obrigatória de velocidade."},
+  {id:23,cat:"sinais",text:"A linha tracejada branca longitudinal no centro da pista indica:",opts:["Proibido ultrapassar","Pode ultrapassar com segurança","Fim de pista","Estacionamento permitido"],ans:1,exp:"Linha tracejada no centro permite ultrapassagem quando há visibilidade e segurança suficientes."},
+
+  // DIREÇÃO DEFENSIVA
+  {id:24,cat:"direcao",text:"O que é direção defensiva?",opts:["Dirigir lentamente sempre","Técnica para prevenir acidentes mesmo diante dos erros dos outros","Usar o freio frequentemente","Manter a janela fechada sempre"],ans:1,exp:"Direção defensiva é a técnica de condução que visa prevenir acidentes de trânsito, mesmo diante de erros dos outros motoristas ou condições adversas."},
+  {id:25,cat:"direcao",text:"Qual a distância lateral mínima ao ultrapassar um ciclista?",opts:["0,5 metro","1 metro","1,5 metros","2 metros"],ans:2,exp:"A Lei do Ciclista (CTB, art. 58) determina distância lateral mínima de 1,5 metro ao ultrapassar ciclistas em vias urbanas, e 3 metros em rodovias."},
+  {id:26,cat:"direcao",text:"Em situação de aquaplanagem, o que você deve fazer?",opts:["Frear bruscamente","Acelerar para sair da poça","Soltar o acelerador e manter o volante reto","Virar o volante para o lado"],ans:2,exp:"Em aquaplanagem, solte o acelerador suavemente, mantenha o volante firme e reto, e não freie bruscamente. Aguarde o controle retornar."},
+  {id:27,cat:"direcao",text:"O que é 'ponto cego' de um veículo?",opts:["Área iluminada pelos faróis","Área não visível pelos espelhos retrovisores","Zona de sombra na estrada","Área de parada de emergência"],ans:1,exp:"Ponto cego é a área lateral do veículo que não é visível pelos espelhos retrovisores. Por isso, antes de mudar de faixa, é fundamental girar a cabeça para verificar."},
+  {id:28,cat:"direcao",text:"Ao sentir sono ao volante, a melhor atitude é:",opts:["Abrir o vidro e ligar o ar condicionado","Tomar café e continuar","Parar em local seguro e descansar","Acelerar para chegar logo"],ans:2,exp:"A única medida eficaz contra o sono é parar e descansar. Café, ar frio e outros recursos são palitativos que podem gerar sensação falsa de alerta."},
+  {id:29,cat:"direcao",text:"Qual é o tempo de reação médio de um motorista em condições normais?",opts:["0,5 segundo","0,75 segundo","1 segundo","1,5 segundo"],ans:1,exp:"O tempo médio de reação humana é de 0,75 segundo. A distância percorrida nesse tempo varia conforme a velocidade."},
+  {id:30,cat:"direcao",text:"Ao passar por uma lombada em alta velocidade, o principal risco é:",opts:["Desgaste dos pneus","Dano na suspensão e perda de controle","Superaquecimento do motor","Consumo excessivo de combustível"],ans:1,exp:"Passar por lombadas em alta velocidade pode danificar a suspensão e causar perda momentânea do controle do veículo."},
+
+  // ÁLCOOL E DROGAS
+  {id:31,cat:"alcool",text:"Qual é o limite legal de alcoolemia para dirigir no Brasil (Lei Seca)?",opts:["0,2 g/L","0,3 g/L","0,05 dg/L","Tolerância zero"],ans:3,exp:"A Lei Seca aplica a tolerância zero: qualquer concentração mensurável de álcool no sangue pode caracterizar infração. O limite considerado infração grave é 0,05 dg/L de sangue."},
+  {id:32,cat:"alcool",text:"Dirigir sob influência de álcool com resultado de 0,34 mg/L ou mais no ar alveolar é considerado:",opts:["Infração grave","Infração gravíssima","Crime de trânsito","Infração leve"],ans:2,exp:"Concentrações iguais ou superiores a 0,34 mg/L de álcool no ar alveolar (ou 0,6 dg/L no sangue) configuram crime de trânsito previsto no art. 306 do CTB."},
+  {id:33,cat:"alcool",text:"O álcool afeta principalmente qual função de um motorista?",opts:["Visão","Reflexos e coordenação motora","Audição","Força muscular"],ans:1,exp:"O álcool deteriora os reflexos, a coordenação motora, a capacidade de julgamento e a noção de risco — habilidades fundamentais para dirigir com segurança."},
+  {id:34,cat:"alcool",text:"Qual é a penalidade para reincidência em embriaguez ao volante (crime)?",opts:["Multa dobrada","Pena de 3 a 6 anos de prisão","Suspensão imediata da CNH por 5 anos","Cassação definitiva da CNH"],ans:1,exp:"A reincidência no crime de embriaguez ao volante pode resultar em pena de 3 a 6 anos de reclusão, além de suspensão da habilitação."},
+
+  // PRIMEIROS SOCORROS
+  {id:35,cat:"primeiros",text:"Ao encontrar um acidentado inconsciente, o que deve-se fazer PRIMEIRO?",opts:["Mover a vítima para local seguro imediatamente","Acionar o socorro (192/193) e sinalizar o local","Dar água à vítima","Fazer massagem cardíaca imediatamente"],ans:1,exp:"A prioridade é acionar o socorro profissional (SAMU 192 ou Bombeiros 193) e sinalizar o local para evitar novos acidentes. Mover a vítima pode agravar lesões."},
+  {id:36,cat:"primeiros",text:"Quando é correto remover um acidentado do veículo?",opts:["Sempre, para facilitar os socorros","Somente se houver risco de incêndio ou afogamento","Quando o cinto de segurança estiver preso","Quando a ambulância ainda estiver longe"],ans:1,exp:"Só se deve remover a vítima do veículo em caso de risco iminente de incêndio ou afogamento, pois a remoção inadequada pode agravar lesões na coluna."},
+  {id:37,cat:"primeiros",text:"O que é a manobra de RCP (Ressuscitação Cardiopulmonar)?",opts:["Procedimento para parar hemorragia","Técnica de respiração boca a boca apenas","Combinação de compressões torácicas e ventilações artificiais","Procedimento para desobstruir a via aérea"],ans:2,exp:"A RCP combina compressões torácicas (30) com ventilações (2) para manter o fluxo de sangue e oxigênio até a chegada dos profissionais de saúde."},
+  {id:38,cat:"primeiros",text:"Como se deve proceder ao encontrar uma vítima com hemorragia externa grave?",opts:["Aplicar torniquete imediatamente","Comprimir o ferimento com pano limpo e manter a pressão","Lavar o ferimento com água","Elevar o ferimento acima da cabeça"],ans:1,exp:"A compressão direta com pano limpo sobre o ferimento é a forma mais eficaz de controlar hemorragia externa. O torniquete é última opção em casos extremos."},
+
+  // MEIO AMBIENTE
+  {id:39,cat:"meioambiente",text:"Qual alternativa de combustível contribui MENOS para emissões de CO2?",opts:["Gasolina comum","Diesel","Etanol","GNV"],ans:2,exp:"O etanol tem ciclo de carbono considerado mais neutro, pois o CO2 emitido foi absorvido pela cana durante seu crescimento. Emite menos GEE que gasolina ou diesel."},
+  {id:40,cat:"meioambiente",text:"O que é a Inspeção Veicular Ambiental?",opts:["Multa por emissões","Verificação de ruídos do escapamento","Verificação periódica dos gases poluentes emitidos pelo veículo","Controle de derramamento de óleo"],ans:2,exp:"A inspeção veicular ambiental verifica se o veículo está dentro dos limites de emissão de poluentes e atende às normas do CONAMA."},
+  {id:41,cat:"meioambiente",text:"O descarte incorreto de óleo de motor pode contaminar:",opts:["Apenas o solo","Apenas a água","Solo e água","Apenas o ar"],ans:2,exp:"Um litro de óleo usado pode contaminar até 1 milhão de litros de água. O descarte incorreto contamina solo e lençóis freáticos."},
+  
+  // MAIS QUESTÕES GERAIS
+  {id:42,cat:"legislacao",text:"Qual é a velocidade máxima em rodovias de pista dupla?",opts:["100 km/h","110 km/h","120 km/h","130 km/h"],ans:2,exp:"Em rodovias de pista dupla, a velocidade máxima é de 120 km/h para automóveis, conforme o CTB."},
+  {id:43,cat:"legislacao",text:"Em vias urbanas, é permitido usar o celular enquanto dirige?",opts:["Sim, se viva-voz","Não, é infração gravíssima","Sim, parado no semáforo","Sim, se com fone de ouvido"],ans:1,exp:"O uso de celular enquanto dirige é infração gravíssima, mesmo com viva-voz ou fone, pois distrai a atenção do motorista."},
+  {id:44,cat:"sinais",text:"O que indica uma placa com fundo marrom?",opts:["Obras na via","Pontos turísticos e de interesse cultural","Serviços de emergência","Rodovias federais"],ans:1,exp:"Placas com fundo marrom indicam atrativos turísticos, patrimônios históricos e pontos de interesse cultural."},
+  {id:45,cat:"legislacao",text:"Quem tem preferência na ultrapassagem de ciclistas em cruzamentos?",opts:["O motorista sempre","O ciclista sempre","Quem chega primeiro","O veículo que vem pela direita"],ans:2,exp:"Em cruzamentos não sinalizados com ciclistas, aplica-se a regra geral: preferência para quem vem pela direita. Mas o motorista sempre deve ter cuidado redobrado."},
+  {id:46,cat:"direcao",text:"O que se deve fazer ao perceber que os freios falharam?",opts:["Desligar o motor imediatamente","Puxar o freio de mão bruscamente","Reduzir marchas progressivamente e usar o freio de mão com cuidado","Acender o pisca-alerta e esperar"],ans:2,exp:"Em caso de falha de freio: mantenha a calma, reduz marchas progressivamente (motor freando), use o freio de mão suavemente e procure local seguro para parar."},
+  {id:47,cat:"legislacao",text:"Qual é a multa mais grave no CTB (gravíssima com multiplicador)?",opts:["R$ 293,47","R$ 880,41","R$ 1.467,35","R$ 2.934,70"],ans:2,exp:"A multa gravíssima com fator multiplicador 5 (ex: racha) pode chegar a R$ 1.467,35 ou mais, dependendo da infração."},
+  {id:48,cat:"sinais",text:"O que significa a placa com dois triângulos entrelaçados?",opts:["Cruzamento sinalizado","Entroncamento em 'Y'","Bifurcação","Retorno proibido"],ans:1,exp:"Dois triângulos entrelaçados indicam entroncamento em 'Y', alertando para o cruzamento em formato de 'Y' à frente."},
+  {id:49,cat:"legislacao",text:"Crianças de até 7 anos e meio devem ser transportadas em:",opts:["Banco traseiro com cinto","Cadeirinha homologada no banco traseiro","Banco da frente com airbag","Qualquer posição com cinto"],ans:1,exp:"Crianças de até 7 anos e meio devem usar dispositivos de retenção (bebê conforto, cadeirinha ou assento) adequados ao peso e altura, instalados no banco traseiro."},
+  {id:50,cat:"alcool",text:"Qual o tempo mínimo para que o álcool seja metabolizado pelo organismo?",opts:["30 minutos por dose","1 hora por dose","Varia por pessoa, não há tempo fixo","2 horas por dose"],ans:2,exp:"A metabolização do álcool varia conforme peso, sexo, alimentação, saúde do fígado etc. Não há tempo fixo — a única segurança é não beber e dirigir."},
+];
+
+const SINAIS_DATA = [
+  // REGULAMENTAÇÃO
+  {id:"r1",cat:"regulamentacao",name:"Velocidade máxima 60",desc:"Indica velocidade máxima permitida de 60 km/h naquela via. Placa de regulamentação circular.",tipo:"Regulamentação",svg:`<svg viewBox="0 0 70 70"><circle cx="35" cy="35" r="32" fill="#fff" stroke="#c0392b" stroke-width="5"/><text x="35" y="43" text-anchor="middle" font-size="18" font-weight="bold" fill="#222">60</text></svg>`},
+  {id:"r2",cat:"regulamentacao",name:"Proibido estacionar",desc:"Proibido parar e estacionar o veículo naquele local.",tipo:"Regulamentação",svg:`<svg viewBox="0 0 70 70"><circle cx="35" cy="35" r="32" fill="#fff" stroke="#c0392b" stroke-width="5"/><text x="35" y="42" text-anchor="middle" font-size="22" font-weight="bold" fill="#222">E</text><line x1="12" y1="12" x2="58" y2="58" stroke="#c0392b" stroke-width="5"/></svg>`},
+  {id:"r3",cat:"regulamentacao",name:"Sentido proibido",desc:"Proibida a entrada de veículos naquela via no sentido indicado.",tipo:"Regulamentação",svg:`<svg viewBox="0 0 70 70"><circle cx="35" cy="35" r="32" fill="#c0392b" stroke="#c0392b" stroke-width="2"/><rect x="14" y="29" width="42" height="12" rx="3" fill="#fff"/></svg>`},
+  {id:"r4",cat:"regulamentacao",name:"Mão única à direita",desc:"Circulação obrigatória no sentido indicado pela seta.",tipo:"Regulamentação",svg:`<svg viewBox="0 0 70 70"><circle cx="35" cy="35" r="32" fill="#1a5fa6" stroke="#1a5fa6" stroke-width="2"/><polygon points="20,25 20,45 45,45 45,55 60,35 45,15 45,25" fill="#fff"/></svg>`},
+  {id:"r5",cat:"regulamentacao",name:"Proibido ultrapassar",desc:"Não é permitido ultrapassar outros veículos naquele trecho.",tipo:"Regulamentação",svg:`<svg viewBox="0 0 70 70"><circle cx="35" cy="35" r="32" fill="#fff" stroke="#c0392b" stroke-width="5"/><circle cx="25" cy="35" r="8" fill="#888"/><circle cx="45" cy="35" r="8" fill="#c0392b"/><line x1="12" y1="12" x2="58" y2="58" stroke="#c0392b" stroke-width="5"/></svg>`},
+  {id:"r6",cat:"regulamentacao",name:"Dê a preferência",desc:"O condutor deve dar a preferência de passagem ao outro fluxo de tráfego.",tipo:"Regulamentação",svg:`<svg viewBox="0 0 70 70"><polygon points="35,5 65,60 5,60" fill="#fff" stroke="#c0392b" stroke-width="4"/><polygon points="35,18 55,52 15,52" fill="#c0392b"/><text x="35" y="50" text-anchor="middle" font-size="13" font-weight="bold" fill="#fff">▼</text></svg>`},
+  {id:"r7",cat:"regulamentacao",name:"Pare",desc:"Parada obrigatória. O condutor deve parar o veículo antes de avançar.",tipo:"Regulamentação",svg:`<svg viewBox="0 0 70 70"><polygon points="35,3 62,18 62,52 35,67 8,52 8,18" fill="#c0392b"/><text x="35" y="44" text-anchor="middle" font-size="16" font-weight="bold" fill="#fff">PARE</text></svg>`},
+  {id:"r8",cat:"regulamentacao",name:"Proibido virar à esquerda",desc:"Proibida a conversão para a esquerda naquele ponto.",tipo:"Regulamentação",svg:`<svg viewBox="0 0 70 70"><circle cx="35" cy="35" r="32" fill="#fff" stroke="#c0392b" stroke-width="5"/><path d="M45 50 Q20 50 20 30 Q20 18 35 18" stroke="#222" stroke-width="4" fill="none"/><polygon points="35,10 27,22 43,22" fill="#222"/><line x1="12" y1="12" x2="58" y2="58" stroke="#c0392b" stroke-width="5"/></svg>`},
+
+  // ADVERTÊNCIA
+  {id:"a1",cat:"advertencia",name:"Curva à direita",desc:"Há uma curva perigosa à direita adiante. Reduza a velocidade.",tipo:"Advertência",svg:`<svg viewBox="0 0 70 70"><polygon points="35,5 65,60 5,60" fill="#f0c040" stroke="#888" stroke-width="2"/><path d="M30 45 Q30 30 45 25" stroke="#333" stroke-width="4" fill="none" stroke-linecap="round"/><polygon points="45,16 38,28 52,28" fill="#333"/></svg>`},
+  {id:"a2",cat:"advertencia",name:"Pista escorregadia",desc:"Pista com baixa aderência, risco de derrapagem. Reduza a velocidade.",tipo:"Advertência",svg:`<svg viewBox="0 0 70 70"><polygon points="35,5 65,60 5,60" fill="#f0c040" stroke="#888" stroke-width="2"/><text x="35" y="52" text-anchor="middle" font-size="28">🌊</text></svg>`},
+  {id:"a3",cat:"advertencia",name:"Passagem de pedestre",desc:"Há faixa de travessia de pedestres à frente. Atenção redobrada.",tipo:"Advertência",svg:`<svg viewBox="0 0 70 70"><polygon points="35,5 65,60 5,60" fill="#f0c040" stroke="#888" stroke-width="2"/><text x="35" y="52" text-anchor="middle" font-size="28">🚶</text></svg>`},
+  {id:"a4",cat:"advertencia",name:"Animais na pista",desc:"Risco de animais cruzando a via. Reduza a velocidade.",tipo:"Advertência",svg:`<svg viewBox="0 0 70 70"><polygon points="35,5 65,60 5,60" fill="#f0c040" stroke="#888" stroke-width="2"/><text x="35" y="52" text-anchor="middle" font-size="28">🐄</text></svg>`},
+  {id:"a5",cat:"advertencia",name:"Obras na via",desc:"Há obras adiante. Reduza velocidade e fique atento à sinalização.",tipo:"Advertência",svg:`<svg viewBox="0 0 70 70"><polygon points="35,5 65,60 5,60" fill="#f08010" stroke="#888" stroke-width="2"/><text x="35" y="52" text-anchor="middle" font-size="28">🚧</text></svg>`},
+  {id:"a6",cat:"advertencia",name:"Cruzamento à frente",desc:"Há um cruzamento de vias à frente. Reduza e observe os lados.",tipo:"Advertência",svg:`<svg viewBox="0 0 70 70"><polygon points="35,5 65,60 5,60" fill="#f0c040" stroke="#888" stroke-width="2"/><line x1="35" y1="20" x2="35" y2="55" stroke="#333" stroke-width="4"/><line x1="22" y1="38" x2="48" y2="38" stroke="#333" stroke-width="4"/></svg>`},
+  {id:"a7",cat:"advertencia",name:"Lombada",desc:"Há redutores de velocidade (lombada) adiante.",tipo:"Advertência",svg:`<svg viewBox="0 0 70 70"><polygon points="35,5 65,60 5,60" fill="#f0c040" stroke="#888" stroke-width="2"/><path d="M18 48 Q25 32 35 32 Q45 32 52 48" stroke="#333" stroke-width="4" fill="none"/></svg>`},
+  {id:"a8",cat:"advertencia",name:"Escola",desc:"Área de escola próxima. Crianças podem cruzar a via. Máxima atenção.",tipo:"Advertência",svg:`<svg viewBox="0 0 70 70"><polygon points="35,5 65,60 5,60" fill="#f0c040" stroke="#888" stroke-width="2"/><text x="35" y="52" text-anchor="middle" font-size="28">🏫</text></svg>`},
+
+  // INDICAÇÃO
+  {id:"i1",cat:"indicacao",name:"Posto de gasolina",desc:"Indica posto de abastecimento de combustível nas proximidades.",tipo:"Indicação",svg:`<svg viewBox="0 0 70 70"><rect x="5" y="5" width="60" height="60" rx="6" fill="#1a5fa6"/><text x="35" y="42" text-anchor="middle" font-size="28">⛽</text></svg>`},
+  {id:"i2",cat:"indicacao",name:"Hospital",desc:"Indica hospital ou pronto-socorro nas proximidades.",tipo:"Indicação",svg:`<svg viewBox="0 0 70 70"><rect x="5" y="5" width="60" height="60" rx="6" fill="#1a5fa6"/><text x="35" y="42" text-anchor="middle" font-size="28">🏥</text></svg>`},
+  {id:"i3",cat:"indicacao",name:"Estacionamento",desc:"Indica área de estacionamento disponível.",tipo:"Indicação",svg:`<svg viewBox="0 0 70 70"><rect x="5" y="5" width="60" height="60" rx="6" fill="#1a5fa6"/><text x="35" y="48" text-anchor="middle" font-size="36" font-weight="bold" fill="#fff">P</text></svg>`},
+  {id:"i4",cat:"indicacao",name:"Banheiro",desc:"Indica banheiro público nas proximidades.",tipo:"Indicação",svg:`<svg viewBox="0 0 70 70"><rect x="5" y="5" width="60" height="60" rx="6" fill="#1a5fa6"/><text x="35" y="42" text-anchor="middle" font-size="28">🚻</text></svg>`},
+  {id:"i5",cat:"indicacao",name:"Aeroporto",desc:"Indica aeroporto nas proximidades.",tipo:"Indicação",svg:`<svg viewBox="0 0 70 70"><rect x="5" y="5" width="60" height="60" rx="6" fill="#1a5fa6"/><text x="35" y="42" text-anchor="middle" font-size="28">✈️</text></svg>`},
+
+  // SEMÁFOROS
+  {id:"s1",cat:"semaforo",name:"Sinal verde",desc:"Via liberada. O condutor pode prosseguir normalmente.",tipo:"Semáforo",svg:`<svg viewBox="0 0 70 70"><rect x="20" y="5" width="30" height="60" rx="6" fill="#333"/><circle cx="35" cy="18" r="9" fill="#555"/><circle cx="35" cy="35" r="9" fill="#555"/><circle cx="35" cy="52" r="9" fill="#27ae60"/></svg>`},
+  {id:"s2",cat:"semaforo",name:"Sinal amarelo",desc:"Atenção: o sinal está mudando. Pare se seguro, prossiga com extremo cuidado.",tipo:"Semáforo",svg:`<svg viewBox="0 0 70 70"><rect x="20" y="5" width="30" height="60" rx="6" fill="#333"/><circle cx="35" cy="18" r="9" fill="#555"/><circle cx="35" cy="35" r="9" fill="#f0c040"/><circle cx="35" cy="52" r="9" fill="#555"/></svg>`},
+  {id:"s3",cat:"semaforo",name:"Sinal vermelho",desc:"Via fechada. O condutor deve parar e aguardar.",tipo:"Semáforo",svg:`<svg viewBox="0 0 70 70"><rect x="20" y="5" width="30" height="60" rx="6" fill="#333"/><circle cx="35" cy="18" r="9" fill="#c0392b"/><circle cx="35" cy="35" r="9" fill="#555"/><circle cx="35" cy="52" r="9" fill="#555"/></svg>`},
+  {id:"s4",cat:"semaforo",name:"Semáforo amarelo piscante",desc:"Atenção redobrada. O condutor deve reduzir velocidade e verificar a via antes de cruzar.",tipo:"Semáforo",svg:`<svg viewBox="0 0 70 70"><rect x="20" y="8" width="30" height="54" rx="6" fill="#333"/><circle cx="35" cy="35" r="12" fill="#f0c040" opacity="0.9"/><text x="35" y="42" text-anchor="middle" font-size="18" fill="#333">!</text></svg>`},
+  {id:"s5",cat:"semaforo",name:"Semáforo pedestre — pare",desc:"Pedestres devem aguardar na calçada. Não atravessar.",tipo:"Semáforo",svg:`<svg viewBox="0 0 70 70"><rect x="20" y="5" width="30" height="60" rx="6" fill="#333"/><circle cx="35" cy="20" r="10" fill="#c0392b"/><text x="35" y="52" text-anchor="middle" font-size="28" fill="#c0392b">✋</text></svg>`},
+  {id:"s6",cat:"semaforo",name:"Semáforo pedestre — ande",desc:"Pedestres podem atravessar com segurança.",tipo:"Semáforo",svg:`<svg viewBox="0 0 70 70"><rect x="20" y="5" width="30" height="60" rx="6" fill="#333"/><circle cx="35" cy="20" r="10" fill="#555"/><text x="35" y="54" text-anchor="middle" font-size="28" fill="#27ae60">🚶</text></svg>`},
+
+  // GESTOS DE AGENTE
+  {id:"g1",cat:"gestos",name:"Braço levantado — pare",desc:"Agente com braço erguido verticalmente. Todos os veículos devem parar.",tipo:"Gesto",svg:`<svg viewBox="0 0 70 70"><circle cx="35" cy="14" r="8" fill="#f5cba7"/><rect x="29" y="22" width="12" height="22" rx="4" fill="#1a5fa6"/><line x1="35" y1="30" x2="50" y2="18" stroke="#f5cba7" stroke-width="5" stroke-linecap="round"/><rect x="28" y="44" width="6" height="16" rx="3" fill="#333"/><rect x="36" y="44" width="6" height="16" rx="3" fill="#333"/></svg>`},
+  {id:"g2",cat:"gestos",name:"Braço horizontal — siga",desc:"Agente com braço estendido horizontalmente. Os veículos no sentido perpendicular podem passar.",tipo:"Gesto",svg:`<svg viewBox="0 0 70 70"><circle cx="35" cy="14" r="8" fill="#f5cba7"/><rect x="29" y="22" width="12" height="22" rx="4" fill="#1a5fa6"/><line x1="12" y1="30" x2="58" y2="30" stroke="#f5cba7" stroke-width="5" stroke-linecap="round"/><rect x="28" y="44" width="6" height="16" rx="3" fill="#333"/><rect x="36" y="44" width="6" height="16" rx="3" fill="#333"/></svg>`},
+
+  // MARCAS HORIZONTAIS
+  {id:"h1",cat:"horizontal",name:"Faixa de pedestre",desc:"Indica local de travessia de pedestres. O motorista deve dar preferência ao pedestre.",tipo:"Marca horizontal",svg:`<svg viewBox="0 0 70 70"><rect x="5" y="5" width="60" height="60" rx="4" fill="#e8e8e8"/><rect x="10" y="15" width="50" height="8" fill="#fff" stroke="#999" stroke-width="0.5"/><rect x="10" y="27" width="50" height="8" fill="#fff" stroke="#999" stroke-width="0.5"/><rect x="10" y="39" width="50" height="8" fill="#fff" stroke="#999" stroke-width="0.5"/><rect x="10" y="51" width="50" height="8" fill="#fff" stroke="#999" stroke-width="0.5"/></svg>`},
+  {id:"h2",cat:"horizontal",name:"Linha central contínua",desc:"Proíbe a ultrapassagem em ambos os sentidos. Não ultrapasse nem invada a faixa oposta.",tipo:"Marca horizontal",svg:`<svg viewBox="0 0 70 70"><rect x="5" y="5" width="60" height="60" rx="4" fill="#444"/><line x1="5" y1="32" x2="65" y2="32" stroke="#f0c040" stroke-width="3"/><line x1="5" y1="38" x2="65" y2="38" stroke="#f0c040" stroke-width="3"/></svg>`},
+  {id:"h3",cat:"horizontal",name:"Linha tracejada",desc:"Permite ultrapassagem quando há segurança e visibilidade adequadas.",tipo:"Marca horizontal",svg:`<svg viewBox="0 0 70 70"><rect x="5" y="5" width="60" height="60" rx="4" fill="#444"/><line x1="5" y1="35" x2="20" y2="35" stroke="#fff" stroke-width="3"/><line x1="27" y1="35" x2="43" y2="35" stroke="#fff" stroke-width="3"/><line x1="50" y1="35" x2="65" y2="35" stroke="#fff" stroke-width="3"/></svg>`},
+  {id:"h4",cat:"horizontal",name:"Linha de retenção (PARE)",desc:"Indica o local exato onde o veículo deve parar no sinal ou placa STOP.",tipo:"Marca horizontal",svg:`<svg viewBox="0 0 70 70"><rect x="5" y="5" width="60" height="60" rx="4" fill="#444"/><line x1="5" y1="40" x2="65" y2="40" stroke="#fff" stroke-width="5"/><text x="35" y="32" text-anchor="middle" font-size="11" fill="#f0c040" font-weight="bold">PARE</text></svg>`},
+  {id:"h5",cat:"horizontal",name:"Zigue-zague",desc:"Alerta para faixa de pedestres ou redução de velocidade obrigatória próxima.",tipo:"Marca horizontal",svg:`<svg viewBox="0 0 70 70"><rect x="5" y="5" width="60" height="60" rx="4" fill="#444"/><polyline points="10,50 18,25 26,50 34,25 42,50 50,25 60,50" stroke="#f0c040" stroke-width="3" fill="none"/></svg>`},
+];
+
+const DICAS = [
+  {icon:"ti-road",title:"Macete das placas por forma",text:"Círculo = obrigação/proibição. Triângulo = advertência. Retângulo = indicação. Octógono = PARE. Associe a forma ao significado antes de decorar cada placa!"},
+  {icon:"ti-traffic-lights",title:"Semáforo: V-A-V",text:"Verde = pode ir. Amarelo = atenção (NÃO acelere!). Vermelho = pare. Quando amarelo, só passe se já estiver no cruzamento. Nunca acelere ao ver o amarelo."},
+  {icon:"ti-beer",title:"Lei Seca — tolerância zero",text:"'Bebeu, não dirija' não é apenas conselho — é lei. Qualquer concentração mensurável pode configurar infração. A recusa ao bafômetro tem a mesma penalidade."},
+  {icon:"ti-seatbelt",title:"Cinto para TODOS",text:"O motorista é responsável pelo uso do cinto de todos os ocupantes. Criança até 7,5 anos: cadeirinha adequada. Multa + pontos para o motorista por criança sem dispositivo."},
+  {icon:"ti-car",title:"Distância segura = tempo de reação",text:"A cada 10 km/h de velocidade, você percorre cerca de 3 metros durante o tempo de reação (0,75s). A 60 km/h = ~12 metros antes de sequer pisar no freio!"},
+  {icon:"ti-arrow-right",title:"Direita tem preferência",text:"Em cruzamentos não sinalizados, dê a preferência a quem vem pela sua direita. É a regra mais básica e mais cobrada nas provas!"},
+  {icon:"ti-line",title:"Linhas no asfalto",text:"Linha branca = divide sentidos iguais ou delimita faixas. Linha amarela = divide sentidos opostos. Contínua = não ultrapasse. Tracejada = pode ultrapassar."},
+  {icon:"ti-first-aid-kit",title:"Acidente — o que fazer",text:"1) Sinalize o local (triângulo 30m). 2) Ligue para SAMU (192) ou Bombeiros (193). 3) NÃO mova a vítima (a não ser risco de incêndio). 4) Preste primeiros socorros se souber."},
+  {icon:"ti-phone-off",title:"Celular ao volante = crime",text:"Usar celular dirigindo: multa gravíssima + 7 pontos na CNH. Não há exceção — nem em sinal vermelho, nem com fone, nem com viva-voz. Largue o celular!"},
+  {icon:"ti-clock",title:"Velocidades máximas — decoreba",text:"Via rural de pista simples: 100 km/h. Via rural de pista dupla: 120 km/h. Via urbana: 60 km/h. Via expressa urbana: 80 km/h. Vias locais: 30 km/h."},
+];
+
+// ===== STATE =====
+let quizQty = 10, quizCat = "all";
+let currentQuiz = [], currentIdx = 0, answers = [];
+let gameScore = 0, gameStreak = [], gameIdx = 0, gameDeck = [];
+let waitingNext = false;
+
+// Dynamic active data (falls back to local data if Supabase load fails)
+let activeQuestions = [...QUESTIONS];
+let activeSinais = [...SINAIS_DATA];
+let activeDicas = [...DICAS];
+let userName = "Visitante";
+
+// Supabase Configuration
+const supabaseUrl = 'https://ctuhwdlfqeawfdhmpmbw.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0dWh3ZGxmcWVhd2ZkaG1wbWJ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEwNTA5MDksImV4cCI6MjA5NjYyNjkwOX0.AdbD63eNkSDTn51cQtECjbTTyQsLOpNFWE_2KYnAAd0';
+let supabase = null;
+let isSupabaseConnected = false;
+
+// ===== NAVIGATION =====
+function goScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+  const btns = document.querySelectorAll('.nav-btn');
+  const idxMap = {'home':0,'simulado-config':1,'sinais':2,'jogo':3,'dicas':4};
+  if(idxMap[id] !== undefined) btns[idxMap[id]].classList.add('active');
+  if(id === 'sinais') renderSinais('regulamentacao');
+  if(id === 'jogo') initGame();
+  if(id === 'dicas') renderDicas();
+  if(id === 'simulado-config') loadSimuladoHistory();
+}
+
+// ===== SIMULADO CONFIG =====
+function setQty(btn) {
+  document.querySelectorAll('.qty-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  quizQty = parseInt(btn.dataset.qty);
+}
+function setCat(btn) {
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  quizCat = btn.dataset.cat;
+}
+
+// ===== QUIZ LOGIC =====
+function startQuiz() {
+  let pool = quizCat === 'all' ? [...activeQuestions] : activeQuestions.filter(q => q.cat === quizCat);
+  if(pool.length < quizQty) pool = [...activeQuestions]; // fallback
+  pool = shuffle(pool).slice(0, quizQty);
+  currentQuiz = pool;
+  currentIdx = 0;
+  answers = [];
+  goScreen('quiz');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = currentQuiz[currentIdx];
+  const pct = (currentIdx / currentQuiz.length) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('qCounter').textContent = `Questão ${currentIdx+1} de ${currentQuiz.length}`;
+  document.getElementById('qCategory').textContent = catLabel(q.cat);
+  document.getElementById('questionText').textContent = q.text;
+  document.getElementById('explanationBox').style.display = 'none';
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('nextBtn').textContent = currentIdx < currentQuiz.length - 1 ? 'Próxima →' : 'Ver resultado';
+
+  const cont = document.getElementById('optionsContainer');
+  cont.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  q.opts.forEach((opt, i) => {
+    const div = document.createElement('div');
+    div.className = 'opt';
+    div.innerHTML = `<span class="opt-letter">${letters[i]}</span><span>${opt}</span>`;
+    div.onclick = () => selectAnswer(i, q);
+    cont.appendChild(div);
+  });
+}
+
+function selectAnswer(idx, q) {
+  const opts = document.querySelectorAll('.opt');
+  opts.forEach(o => { o.classList.add('disabled'); });
+  opts[idx].classList.add(idx === q.ans ? 'correct' : 'wrong');
+  if(idx !== q.ans) opts[q.ans].classList.add('correct');
+  answers.push({q, chosen: idx, correct: idx === q.ans});
+  const box = document.getElementById('explanationBox');
+  box.textContent = '💡 ' + q.exp;
+  box.style.display = 'block';
+  document.getElementById('nextBtn').disabled = false;
+}
+
+function nextQuestion() {
+  currentIdx++;
+  if(currentIdx >= currentQuiz.length) {
+    showResult();
+  } else {
+    renderQuestion();
+  }
+}
+
+function showResult() {
+  const certas = answers.filter(a => a.correct).length;
+  const erradas = answers.length - certas;
+  const pct = Math.round((certas / answers.length) * 100);
+  const passed = pct >= 70;
+
+  const hero = document.getElementById('resultHero');
+  hero.style.background = passed ? '#eafaf1' : '#fdf0ef';
+  document.getElementById('resultTitle').textContent = passed ? '✅ Aprovado!' : '❌ Não aprovado — continue praticando';
+  document.getElementById('resultTitle').style.color = passed ? '#1a7a40' : '#c0392b';
+  document.getElementById('resultScore').textContent = pct + '%';
+  document.getElementById('resultScore').style.color = passed ? '#27ae60' : '#c0392b';
+  document.getElementById('resultMsg').textContent = passed ? 'Parabéns! Você ultrapassou o mínimo de 70%.' : 'Você precisa de 70% para aprovação no DETRAN.';
+  document.getElementById('resultMsg').style.color = passed ? '#1a7a40' : '#c0392b';
+  document.getElementById('statCertas').textContent = certas;
+  document.getElementById('statErradas').textContent = erradas;
+  document.getElementById('statPct').textContent = pct + '%';
+
+  const rev = document.getElementById('reviewList');
+  rev.innerHTML = '';
+  answers.forEach((a, i) => {
+    const div = document.createElement('div');
+    div.className = 'review-item';
+    div.innerHTML = `<span class="review-badge ${a.correct ? 'badge-ok' : 'badge-err'}">${a.correct ? '✓ Correto' : '✗ Errado'}</span>
+    <div style="font-size:13px;margin-bottom:6px">${i+1}. ${a.q.text}</div>
+    ${!a.correct ? `<div style="font-size:12px;color:var(--muted)">Sua resposta: <strong>${a.q.opts[a.chosen]}</strong> — Correto: <strong>${a.q.opts[a.q.ans]}</strong></div>` : ''}
+    <div style="font-size:12px;color:var(--muted);margin-top:4px">${a.q.exp}</div>`;
+    rev.appendChild(div);
+  });
+
+  // Salvar resultado no histórico
+  saveSimuladoResult(answers.length, certas, pct, catLabel(quizCat));
+
+  goScreen('resultado');
+}
+
+// ===== SINAIS =====
+function filterSinais(btn) {
+  document.querySelectorAll('.stab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderSinais(btn.dataset.cat);
+}
+function renderSinais(cat) {
+  const grid = document.getElementById('sinaisGrid');
+  grid.innerHTML = '';
+  activeSinais.filter(s => s.cat === cat).forEach(s => {
+    const card = document.createElement('div');
+    card.className = 'sinal-card';
+    card.innerHTML = `${s.svg}<div class="sname">${s.name}</div><div class="stype">${s.tipo}</div>`;
+    card.onclick = () => openSinalModal(s);
+    grid.appendChild(card);
+  });
+}
+function openSinalModal(s) {
+  document.getElementById('modalSvg').innerHTML = `<div style="width:100px;height:100px;margin:0 auto">${s.svg}</div>`;
+  document.getElementById('modalName').textContent = s.name;
+  const t = document.getElementById('modalType');
+  t.textContent = s.tipo;
+  const colors = {Regulamentação:'background:#fdf0ef;color:#c0392b',Advertência:'background:#fff8e6;color:#c97a0a',Indicação:'background:#e8f2fd;color:#1a5fa6',Semáforo:'background:#e8f5ef;color:#1a6b4a',Gesto:'background:#f3eafc;color:#6b3fa6','Marca horizontal':'background:#f5f5f5;color:#555'};
+  t.setAttribute('style', colors[s.tipo] || 'background:var(--bg2)');
+  document.getElementById('modalDesc').textContent = s.desc;
+  document.getElementById('sinalModal').style.display = 'flex';
+}
+function closeSinalModal() {
+  document.getElementById('sinalModal').style.display = 'none';
+}
+
+// ===== JOGO =====
+function initGame() {
+  gameScore = 0; gameStreak = []; gameIdx = 0;
+  gameDeck = shuffle([...activeSinais]);
+  document.getElementById('gameScore').textContent = '0';
+  document.getElementById('gameLevel').textContent = 'Nível 1';
+  updateStreakBar();
+  nextGameRound();
+  loadLeaderboard();
+}
+function resetGame() { initGame(); }
+
+function nextGameRound() {
+  waitingNext = false;
+  const feedback = document.getElementById('feedbackMsg');
+  feedback.className = 'feedback-msg';
+  if(gameIdx >= gameDeck.length) gameDeck = shuffle([...activeSinais]);
+  const correct = gameDeck[gameIdx % gameDeck.length];
+  gameIdx++;
+  const wrongs = shuffle(activeSinais.filter(s => s.id !== correct.id)).slice(0, 3);
+  const allOpts = shuffle([correct, ...wrongs]);
+
+  document.getElementById('gameSign').innerHTML = `<div style="width:80px;height:80px;margin:0 auto">${correct.svg}</div>`;
+  document.getElementById('gameQText').textContent = 'Qual é este sinal?';
+  document.getElementById('gameQSub').textContent = correct.tipo;
+
+  const cont = document.getElementById('gameOpts');
+  cont.innerHTML = '';
+  allOpts.forEach(opt => {
+    const btn = document.createElement('div');
+    btn.className = 'game-opt';
+    btn.textContent = opt.name;
+    btn.onclick = () => {
+      if(waitingNext) return;
+      waitingNext = true;
+      const isCorrect = opt.id === correct.id;
+      btn.classList.add(isCorrect ? 'correct' : 'wrong');
+      if(!isCorrect) {
+        cont.querySelectorAll('.game-opt').forEach(b => {
+          if(b.textContent === correct.name) b.classList.add('correct');
+        });
+      }
+      cont.querySelectorAll('.game-opt').forEach(b => b.classList.add('disabled'));
+      gameStreak.push(isCorrect);
+      if(gameStreak.length > 10) gameStreak.shift();
+      if(isCorrect) gameScore += (gameStreak.filter(x=>x).length >= 5 ? 20 : 10);
+      document.getElementById('gameScore').textContent = gameScore;
+      document.getElementById('gameLevel').textContent = 'Nível ' + (Math.floor(gameScore/50)+1);
+      updateStreakBar();
+      const fb = document.getElementById('feedbackMsg');
+      fb.textContent = isCorrect ? ('✅ Correto! ' + correct.desc.slice(0,60) + '...') : ('❌ Era: ' + correct.name);
+      fb.className = 'feedback-msg show ' + (isCorrect ? 'ok' : 'bad');
+      
+      // Salvar score no banco
+      saveGameScore(gameScore, Math.floor(gameScore/50)+1);
+
+      setTimeout(nextGameRound, 1800);
+    };
+    cont.appendChild(btn);
+  });
+}
+
+function updateStreakBar() {
+  const bar = document.getElementById('streakBar');
+  bar.innerHTML = '';
+  for(let i = 0; i < 10; i++) {
+    const d = document.createElement('div');
+    d.className = 'streak-dot' + (i < gameStreak.length ? (gameStreak[i] ? ' hit' : ' miss') : '');
+    bar.appendChild(d);
+  }
+}
+
+// ===== DICAS =====
+function renderDicas() {
+  const list = document.getElementById('dicasList');
+  if (!list) return;
+  list.innerHTML = '';
+  activeDicas.forEach(d => {
+    const div = document.createElement('div');
+    div.style.cssText = 'background:var(--bg);border:0.5px solid var(--border);border-radius:var(--border-radius-lg);padding:16px 18px;margin-bottom:10px;display:flex;gap:14px;align-items:flex-start';
+    div.innerHTML = `<div style="width:40px;height:40px;border-radius:50%;background:var(--brand-light);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ${d.icon}" style="font-size:20px;color:var(--brand)" aria-hidden="true"></i></div>
+    <div><div style="font-size:14px;font-weight:500;margin-bottom:4px">${d.title}</div><div style="font-size:13px;color:var(--muted);line-height:1.6">${d.text}</div></div>`;
+    list.appendChild(div);
+  });
+}
+
+// ===== UTILS =====
+function shuffle(a) {
+  const arr = [...a];
+  for(let i = arr.length-1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i+1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+function catLabel(cat) {
+  const m = {legislacao:'Legislação',sinais:'Sinais',direcao:'Direção defensiva',alcool:'Álcool & drogas',primeiros:'Primeiros socorros',meioambiente:'Meio ambiente'};
+  return m[cat] || cat;
+}
+
+// ===== SUPABASE & LOCAL SYNC SERVICES =====
+
+// Initialize Username
+function initUsername() {
+  userName = localStorage.getItem('detran_user_name') || 'Visitante';
+  document.getElementById('userNameDisplay').textContent = userName;
+  const initials = userName.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
+  document.getElementById('userAvatar').textContent = initials || 'U';
+}
+
+function changeUsernamePrompt() {
+  const newName = prompt('Digite seu nome de estudante:', userName);
+  if (newName && newName.trim() !== '') {
+    userName = newName.trim();
+    localStorage.setItem('detran_user_name', userName);
+    initUsername();
+    loadSimuladoHistory();
+    loadLeaderboard();
+  }
+}
+
+// Update Database Connection Status Badge
+function updateDbStatus(status) {
+  const dot = document.getElementById('dbStatusDot');
+  const txt = document.getElementById('dbStatusText');
+  if (status === 'connected') {
+    isSupabaseConnected = true;
+    dot.style.backgroundColor = '#27ae60';
+    txt.textContent = 'Supabase Conectado';
+  } else if (status === 'local') {
+    isSupabaseConnected = false;
+    dot.style.backgroundColor = '#94a3b8';
+    txt.textContent = 'Modo Local (Offline)';
+  } else {
+    isSupabaseConnected = false;
+    dot.style.backgroundColor = '#e11d48';
+    txt.textContent = 'Erro de Conexão';
+  }
+}
+
+// Fetch DB content with offline fallbacks
+async function initSupabaseData() {
+  if (window.supabase) {
+    try {
+      supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+      
+      // Test and fetch questions
+      const { data: dbQuestions, error: qErr } = await supabase.from('questions').select('*');
+      const { data: dbSinais, error: sErr } = await supabase.from('sinais_data').select('*');
+      const { data: dbDicas, error: dErr } = await supabase.from('dicas').select('*');
+
+      if (!qErr && dbQuestions && dbQuestions.length > 0) {
+        activeQuestions = dbQuestions;
+      }
+      if (!sErr && dbSinais && dbSinais.length > 0) {
+        activeSinais = dbSinais;
+      }
+      if (!dErr && dbDicas && dbDicas.length > 0) {
+        activeDicas = dbDicas;
+      }
+
+      if (qErr || sErr || dErr) {
+        console.warn("Algumas tabelas do Supabase não foram encontradas. Usando dados locais como fallback.");
+        updateDbStatus('local');
+      } else {
+        updateDbStatus('connected');
+      }
+    } catch (err) {
+      console.error("Erro ao conectar ao Supabase:", err);
+      updateDbStatus('local');
+    }
+  } else {
+    console.warn("SDK do Supabase não foi carregado. Executando em modo local.");
+    updateDbStatus('local');
+  }
+
+  // Render initial components
+  renderDicas();
+  initUsername();
+  loadSimuladoHistory();
+}
+
+// Simulado History operations
+async function saveSimuladoResult(total, correct, pct, category) {
+  const resultItem = {
+    user_name: userName,
+    total_questions: total,
+    correct_answers: correct,
+    percentage: pct,
+    category: category,
+    created_at: new Date().toISOString()
+  };
+
+  // 1. Save to localStorage
+  const localHistory = JSON.parse(localStorage.getItem('detran_simulado_history') || '[]');
+  localHistory.unshift(resultItem);
+  localStorage.setItem('detran_simulado_history', JSON.stringify(localHistory.slice(0, 50)));
+
+  // 2. Save to Supabase
+  if (isSupabaseConnected && supabase) {
+    try {
+      await supabase.from('simulados_history').insert([resultItem]);
+    } catch (err) {
+      console.error("Falha ao salvar histórico no Supabase:", err);
+    }
+  }
+  loadSimuladoHistory();
+}
+
+async function loadSimuladoHistory() {
+  const list = document.getElementById('simuladoHistoryList');
+  if (!list) return;
+  list.innerHTML = '';
+
+  let history = [];
+
+  // Tenta carregar do Supabase se conectado
+  if (isSupabaseConnected && supabase) {
+    try {
+      const { data, error } = await supabase
+        .from('simulados_history')
+        .select('*')
+        .eq('user_name', userName)
+        .order('created_at', { ascending: false })
+        .limit(5);
+      if (!error && data) {
+        history = data;
+      }
+    } catch (err) {
+      console.error("Falha ao carregar histórico do Supabase:", err);
+    }
+  }
+
+  // Fallback para localStorage
+  if (history.length === 0) {
+    const local = JSON.parse(localStorage.getItem('detran_simulado_history') || '[]');
+    history = local.filter(item => item.user_name === userName).slice(0, 5);
+  }
+
+  if (history.length === 0) {
+    list.innerHTML = `<div style="font-size:12px; color:var(--muted); text-align:center; padding:12px; background:var(--bg2); border-radius:var(--border-radius-md)">Nenhum simulado realizado ainda.</div>`;
+    return;
+  }
+
+  history.forEach(item => {
+    const date = new Date(item.created_at).toLocaleDateString('pt-BR');
+    const passed = item.percentage >= 70;
+    const div = document.createElement('div');
+    div.style.cssText = 'background:var(--bg); border:0.5px solid var(--border); border-radius:var(--border-radius-md); padding:10px 12px; display:flex; justify-content:space-between; align-items:center;';
+    div.innerHTML = `
+      <div>
+        <div style="font-size:13px; font-weight:500;">Simulado ${item.category}</div>
+        <div style="font-size:11px; color:var(--muted);">${date} • ${item.correct_answers}/${item.total_questions} acertos</div>
+      </div>
+      <span style="font-size:12px; font-weight:600; padding:3px 8px; border-radius:12px; ${passed ? 'background:#eafaf1; color:#1a7a40' : 'background:var(--red-light); color:var(--red)'}">
+        ${item.percentage}%
+      </span>
+    `;
+    list.appendChild(div);
+  });
+}
+
+// Game Leaderboard operations
+async function saveGameScore(score, level) {
+  if (score <= 0) return;
+  
+  const scoreItem = {
+    user_name: userName,
+    score: score,
+    level: level,
+    created_at: new Date().toISOString()
+  };
+
+  // 1. Save to localStorage (Local high score)
+  const localScores = JSON.parse(localStorage.getItem('detran_game_scores') || '[]');
+  localScores.push(scoreItem);
+  localScores.sort((a, b) => b.score - a.score);
+  localStorage.setItem('detran_game_scores', JSON.stringify(localScores.slice(0, 20)));
+
+  // 2. Save to Supabase
+  if (isSupabaseConnected && supabase) {
+    try {
+      // Verifica se o jogador já tem uma pontuação maior cadastrada para evitar encher a tabela
+      const { data: existing } = await supabase
+        .from('game_leaderboard')
+        .select('score')
+        .eq('user_name', userName)
+        .order('score', { ascending: false })
+        .limit(1);
+
+      if (!existing || existing.length === 0 || score > existing[0].score) {
+        await supabase.from('game_leaderboard').insert([scoreItem]);
+      }
+    } catch (err) {
+      console.error("Falha ao salvar score no Supabase:", err);
+    }
+  }
+}
+
+async function loadLeaderboard() {
+  const list = document.getElementById('gameLeaderboardList');
+  if (!list) return;
+  list.innerHTML = `<div style="font-size:12px; color:var(--muted); text-align:center; padding:12px;">Carregando ranking...</div>`;
+
+  let board = [];
+
+  // Tenta carregar do Supabase
+  if (isSupabaseConnected && supabase) {
+    try {
+      const { data, error } = await supabase
+        .from('game_leaderboard')
+        .select('*')
+        .order('score', { ascending: false })
+        .limit(10);
+      if (!error && data) {
+        board = data;
+      }
+    } catch (err) {
+      console.error("Falha ao carregar ranking do Supabase:", err);
+    }
+  }
+
+  // Fallback para localStorage
+  if (board.length === 0) {
+    const local = JSON.parse(localStorage.getItem('detran_game_scores') || '[]');
+    // Agrupa por usuário e pega a maior pontuação de cada um
+    const grouped = {};
+    local.forEach(item => {
+      if (!grouped[item.user_name] || item.score > grouped[item.user_name].score) {
+        grouped[item.user_name] = item;
+      }
+    });
+    board = Object.values(grouped).sort((a, b) => b.score - a.score).slice(0, 10);
+  }
+
+  list.innerHTML = '';
+  if (board.length === 0) {
+    list.innerHTML = `<div style="font-size:12px; color:var(--muted); text-align:center; padding:12px;">Nenhuma pontuação registrada ainda. Seja o primeiro!</div>`;
+    return;
+  }
+
+  board.forEach((item, idx) => {
+    const isCurrentUser = item.user_name === userName;
+    const div = document.createElement('div');
+    div.style.cssText = `background:${isCurrentUser ? 'var(--brand-light)' : 'var(--bg2)'}; border:0.5px solid ${isCurrentUser ? 'var(--brand)' : 'var(--border)'}; border-radius:var(--border-radius-md); padding:8px 12px; display:flex; justify-content:space-between; align-items:center; font-size:13px; transition:all 0.15s;`;
+    div.innerHTML = `
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span style="font-weight:700; color:${idx < 3 ? 'var(--amber)' : 'var(--muted)'}; width:16px;">#${idx+1}</span>
+        <span style="font-weight:${isCurrentUser ? '600' : '400'};">${item.user_name} ${isCurrentUser ? '(Você)' : ''}</span>
+      </div>
+      <div style="font-weight:600; color:var(--brand);">${item.score} pts <span style="font-size:10px; font-weight:400; color:var(--muted)">Nível ${item.level}</span></div>
+    `;
+    list.appendChild(div);
+  });
+}
+
+// Init execution
+initSupabaseData();
+</script>
