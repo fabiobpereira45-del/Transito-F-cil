@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/app_detran_habilitacao.html"
+    }
+  ]
+}
