@@ -366,7 +366,7 @@ body{font-family:var(--font-sans);background:#f1f5f9;color:#0f172a}
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" async defer onload="onSupabaseLoaded()"></script>
 <script>
 // ===== DATA =====
 
@@ -804,46 +804,74 @@ function updateDbStatus(status) {
   }
 }
 
+// Helper: race a promise against a timeout
+function withTimeout(promise, ms) {
+  const timeout = new Promise((_, reject) =>
+    setTimeout(() => reject(new Error('Timeout após ' + ms + 'ms')), ms)
+  );
+  return Promise.race([promise, timeout]);
+}
+
 // Fetch DB content with offline fallbacks
 async function initSupabaseData() {
   if (window.supabase) {
     try {
       supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-      
-      // Test and fetch questions
-      const { data: dbQuestions, error: qErr } = await supabase.from('questions').select('*');
-      const { data: dbSinais, error: sErr } = await supabase.from('sinais_data').select('*');
-      const { data: dbDicas, error: dErr } = await supabase.from('dicas').select('*');
 
-      if (!qErr && dbQuestions && dbQuestions.length > 0) {
-        activeQuestions = dbQuestions;
-      }
-      if (!sErr && dbSinais && dbSinais.length > 0) {
-        activeSinais = dbSinais;
-      }
-      if (!dErr && dbDicas && dbDicas.length > 0) {
-        activeDicas = dbDicas;
-      }
+      // Fetch all tables in PARALLEL with an 8-second timeout
+      const [qResult, sResult, dResult] = await withTimeout(
+        Promise.allSettled([
+          supabase.from('questions').select('*'),
+          supabase.from('sinais_data').select('*'),
+          supabase.from('dicas').select('*')
+        ]),
+        8000
+      );
 
-      if (qErr || sErr || dErr) {
-        console.warn("Algumas tabelas do Supabase não foram encontradas. Usando dados locais como fallback.");
+      let anyError = false;
+
+      if (qResult.status === 'fulfilled' && !qResult.value.error && qResult.value.data && qResult.value.data.length > 0) {
+        activeQuestions = qResult.value.data;
+      } else { anyError = true; }
+
+      if (sResult.status === 'fulfilled' && !sResult.value.error && sResult.value.data && sResult.value.data.length > 0) {
+        activeSinais = sResult.value.data;
+      } else { anyError = true; }
+
+      if (dResult.status === 'fulfilled' && !dResult.value.error && dResult.value.data && dResult.value.data.length > 0) {
+        activeDicas = dResult.value.data;
+      } else { anyError = true; }
+
+      if (anyError) {
+        console.warn('Algumas tabelas do Supabase não carregaram. Usando dados locais como fallback.');
         updateDbStatus('local');
       } else {
         updateDbStatus('connected');
       }
     } catch (err) {
-      console.error("Erro ao conectar ao Supabase:", err);
+      console.warn('Erro/timeout ao conectar ao Supabase:', err.message);
       updateDbStatus('local');
     }
   } else {
-    console.warn("SDK do Supabase não foi carregado. Executando em modo local.");
+    console.warn('SDK do Supabase não foi carregado. Executando em modo local.');
     updateDbStatus('local');
   }
 
-  // Render initial components
+  // Render initial components (always runs, even on timeout/error)
   renderDicas();
   initUsername();
   loadSimuladoHistory();
+}
+
+// Called when Supabase CDN finishes loading asynchronously
+function onSupabaseLoaded() {
+  // Only init if page is already ready (DOMContentLoaded fired)
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    if (!window._appInitialized) {
+      window._appInitialized = true;
+      initSupabaseData();
+    }
+  }
 }
 
 // Simulado History operations
@@ -1020,6 +1048,22 @@ async function loadLeaderboard() {
   });
 }
 
-// Init execution
-initSupabaseData();
+// Init execution — runs immediately (covers case where Supabase CDN already loaded
+// or is not loading at all). onSupabaseLoaded() covers the async CDN case.
+document.addEventListener('DOMContentLoaded', function() {
+  if (!window._appInitialized) {
+    window._appInitialized = true;
+    // If Supabase SDK already loaded synchronously, initSupabaseData right away.
+    // If not yet loaded, onSupabaseLoaded() callback will fire it.
+    initSupabaseData();
+  }
+});
+
+// Fallback: if DOMContentLoaded already fired (script deferred/parsed late)
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+  if (!window._appInitialized) {
+    window._appInitialized = true;
+    initSupabaseData();
+  }
+}
 </script>
